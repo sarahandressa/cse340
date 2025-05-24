@@ -1,6 +1,156 @@
+:root {
+  --font-color: #2E2E2E;
+  --accent-color: #5DADE2;
+  --background-color: white;
+
+}
+
+
 /******* Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: var(--font-color);
+  margin: 0;
+}
+
+#tools a:hover {
+  color: #1B263B;
+  text-decoration: underline;
+}
+
+#wrapper {
+  background-color: white;
+  padding: 1rem;
+}
+
+/*Header Styles*/
+#header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.siteName {
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.5rem;
+}
+
+.siteName a{
+  text-decoration: none;
+  color: var(--font-color)
+}
+
+/*Navigation Styles*/
+nav{
+  background-color: var(--font-color);
+  padding: 1rem;
+  font-size: 1.2rem;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  justify-content: space-around;
+  color: white;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+nav ul li a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/*Hero Section Styles*/
+.hero-image {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.hero-image img {
+  width: 100%;
+}
+
+.hero-image article {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  max-width: 200px;
+  font-size: 1.1rem;
+}
+
+.hero-image article h2,
+.hero-image article p {
+  margin: 0;
+}
+
+.hero-image .own-today {
+  width: 60%;
+  margin: 1rem 0;
+}
+
+/*Reviews Styles*/
+.reviews ul li{
+  line-height: 1.5;
+}
+
+/*Upgrade Styles*/
+.upgrades-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+  text-align: center;
+}
+
+.uograde-item {
+  background-color: var(--accent-color);
+  padding: 1rem;
+}
+
+.upgrades-layout img{
+  height: 50px;
+  object-fit: cover;
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    background-image: url("/images/site/small_check.jpg");
+  }
+
+  #wrapper {
+    max-width: 800px;
+    margin: 2rem auto;
+    border: 5px solid var(--accent-color);
+    border-radius: 10px;
+  }
+
+  .hero-image {
+    margin: 2rem 0;
+  }
+
+  #content-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .reviews ul{
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+  }
+  
 }
