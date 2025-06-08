@@ -37,4 +37,13 @@ invCont.buildByVehicleId = async function (req, res, next) {
 }
 
 
+/* ***************************
+ *  Trigger error route handler
+    For testing error handling
+ * ************************** */
+
+invCont.triggerError = async function (req, res, next) {
+  throw new Error("This is a forced error.")
+}
+
   module.exports = invCont
