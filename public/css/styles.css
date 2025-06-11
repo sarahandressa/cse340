@@ -5,7 +5,6 @@
 
 }
 
-
 /******* Change Box Model ***************/
 *,
 *:before,
@@ -17,6 +16,13 @@ body {
   font-family: "Roboto", sans-serif;
   color: var(--font-color);
   margin: 0;
+}
+
+#tools a {
+  text-decoration: none;
+  color: var(--font-color);
+  font-variant: small-caps;
+  font-size: 1.2rem;
 }
 
 #tools a:hover {
@@ -48,7 +54,7 @@ body {
 }
 
 .notice {
-  color: red;
+  color: rgb(165, 0, 0);
   font-style: italic;
   font-weight: bold;
 }
@@ -122,7 +128,7 @@ nav ul li a:hover {
   text-align: center;
 }
 
-.uograde-item {
+.upgrade-item {
   background-color: var(--accent-color);
   padding: 1rem;
 }
@@ -221,6 +227,7 @@ nav ul li a:hover {
 .vehicle-price {
   font-weight: bold;
   font-style: italic;
+  font: 1.2rem;
 }
 
 .vehicle-description {
@@ -229,7 +236,7 @@ nav ul li a:hover {
 
 /*Account Management styles */
 
-.login {
+.login, .register {
   padding: 2rem;
   background-color: var(--accent-color);
   margin: 1rem;
@@ -237,20 +244,20 @@ nav ul li a:hover {
   font-size: 1.2rem;
 }
 
-.login form{
+.login form, .register form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-size: 1.2rem;
 }
 
-.login label{
+.login label, .register label {
   display: block;
   font-weight: bold;
   margin-bottom: 0.25rem;
 }
 
-.login input{
+.login input, .register input {
   display: block;
   width: 100%;
   height: 40px;
@@ -258,9 +265,24 @@ nav ul li a:hover {
   border: 1px solid var(--font-color);
   border-radius: 4px;
   box-sizing: border-box;
+  margin-bottom: 1.5rem;
+  font-size: 16px;
 }
 
-.login button {
+.login input:valid, 
+.register input:valid {
+  border-left: 5px solid green;
+  background-color: rgb(237, 255, 210);
+}
+
+.login input:valid, 
+.register input:valid {
+  border-left: 5px solid red;
+  background: rgb(255, 208, 208);
+}
+
+.login button,
+.register button {
   height: 40px;
   width: 150px;
   background-color: var(--background-color);
@@ -272,8 +294,9 @@ nav ul li a:hover {
   transition: all 0.5s ease;
   align-self: center;
 }
-
-.login button:hover {
+  
+.login button:hover,
+.register button:hover {
   background-color: var(--font-color);
   color: var(--background-color)
 }
@@ -282,6 +305,43 @@ nav ul li a:hover {
   text-align: center;
 }
 
+.account-register a:visited {
+  color: var(--font-color);
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-container input[type="password"],
+.password-container input[type="text"] {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.password-container button {
+  margin-left: 0.5rem;
+  height: 40px;
+  padding: 0 1rem;
+  background-color: var(--background-color);
+  color: var(--font-color);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.password-container button:hover {
+  background-color: var(--font-color);
+  color: var(--background-color);
+}
+
+.password-requirements {
+  margin-top: 0;
+  font-style: italic;
+}
 
 @media screen and (min-width: 768px) {
   body {

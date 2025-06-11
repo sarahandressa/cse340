@@ -59,26 +59,46 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-/* **************************************Add commentMore actions
+/* **************************************
 * Build the vehicle detail view HTML
 * ************************************ */
 Util.buildVehicleDetailView = async function(data) {
     let detail
     if(data) {
         detail = '<div class="vehicle-detail">'
-        detail += '<img src="' + data.inv_image + '">'
+        detail += '<img src="' + data.inv_image + '" alt="' + data.inv_make + ' ' + data.inv_model + ' car">'
         detail += '<div class="vehicle-info">'
-        detail += '<h2>' + data.inv_make + ' ' + data.inv_model + '</h2>'
-        detail += '<p class="vehicle-price">Price: $' + new Intl.NumberFormat('en-US').format(data.inv_price) + '</p>'
-        detail += '<p class="vehicle-description">' + data.inv_description + '</p>'
-        detail += '<p class="vehicle-miles">Miles: ' + new Intl.NumberFormat('en-Us').format(data.inv_miles) + '</p>'
-        detail += '<p class="vehicle-color">Color: ' + data.inv_color + '</p>'
+        detail += '<h2>' + data.inv_make + ' ' + data.inv_model + ' Details</h2>'
+        detail += '<h3 class="vehicle-price">Price: $' + new Intl.NumberFormat('en-US').format(data.inv_price) + '</h3>'
+        detail += '<p class="vehicle-description"><span class="label">Description:</span> ' + data.inv_description + '</p>'
+        detail += '<p class="vehicle-miles"><span class="label">Miles:</span> ' + new Intl.NumberFormat('en-US').format(data.inv_miles) + '</p>'
+        detail += '<p class="vehicle-color"><span class="label">Color:</span> ' + data.inv_color + '</p>'
         detail += '</div>'
         detail += '</div>'
     } else {
     detail = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
     }
     return detail
+}
+
+/* **************************************
+* Password Toggle Function
+* ************************************ */
+Util.togglePassword = function() {
+    const password = document.getElementById("account_password");
+    const showPasswordButton = document.getElementById("showPassword");
+
+    if (showPasswordButton) {
+        showPasswordButton.addEventListener("click", function() {
+            if (password.type === "password") {
+                password.type = "text";
+                showPasswordButton.textContent = "Hide";
+            } else {
+                password.type = "password";
+                showPasswordButton.textContent = "Show";
+            }
+        });
+    }
 }
 
 /* ****************************************
