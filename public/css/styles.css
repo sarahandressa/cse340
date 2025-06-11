@@ -251,13 +251,15 @@ nav ul li a:hover {
   font-size: 1.2rem;
 }
 
-.login label, .register label {
+.login label, 
+.register label {
   display: block;
   font-weight: bold;
   margin-bottom: 0.25rem;
 }
 
-.login input, .register input {
+.login input, 
+.register input {
   display: block;
   width: 100%;
   height: 40px;
@@ -300,6 +302,13 @@ nav ul li a:hover {
   background-color: var(--font-color);
   color: var(--background-color)
 }
+
+.register p {
+  font-variant: small-caps;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 1.6rem;
+}  
 
 .account-register {
   text-align: center;
