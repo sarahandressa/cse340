@@ -234,9 +234,11 @@ nav ul li a:hover {
   line-height: 1.5;
 }
 
-/*Account Management styles */
+/*Account Management & Inventory Management styles */
 
-.login, .register {
+.login, .register,
+.classification
+.inventory {
   padding: 2rem;
   background-color: var(--accent-color);
   margin: 1rem;
@@ -244,7 +246,9 @@ nav ul li a:hover {
   font-size: 1.2rem;
 }
 
-.login form, .register form {
+.login form, .register form,
+.classification form
+.inventory form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -252,14 +256,19 @@ nav ul li a:hover {
 }
 
 .login label, 
-.register label {
+.register label,
+.classification label 
+.inventory label{
   display: block;
   font-weight: bold;
   margin-bottom: 0.25rem;
 }
 
 .login input, 
-.register input {
+.register input,
+.classification input 
+.inventory input,
+#classificationList {
   display: block;
   width: 100%;
   height: 40px;
@@ -272,15 +281,21 @@ nav ul li a:hover {
 }
 
 .login input:valid, 
-.register input:valid {
+.register input:valid 
+.classification input:valid 
+.inventory input:valid,
+.inventory textarea:valid{
   border-left: 5px solid green;
   background-color: rgb(237, 255, 210);
 }
 
-.login input:valid, 
-.register input:valid {
+.login input:invalid, 
+.register input:invalid, 
+.classification input:invalid 
+.inventory input:invalid,
+.inventory textarea:invalid {
   border-left: 5px solid red;
-  background: rgb(255, 208, 208);
+  background: rgb(255, 233, 233);
 }
 
 .login button,
@@ -296,14 +311,32 @@ nav ul li a:hover {
   transition: all 0.5s ease;
   align-self: center;
 }
+
+.classification button,
+.inventory button {
+  height: 50px;
+  width: 180px;
+  background-color: var(--background-color);
+  color: var(--font-color);
+  border-radius: 20px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  align-self: center;
+}
   
 .login button:hover,
-.register button:hover {
+.register button:hover,
+.classification button:hover 
+.inventory button:hover {
   background-color: var(--font-color);
   color: var(--background-color)
 }
 
-.register p {
+.register p,
+.classification p,
+.inventory p {
   font-variant: small-caps;
   font-style: italic;
   font-weight: bold;
@@ -347,9 +380,23 @@ nav ul li a:hover {
   color: var(--background-color);
 }
 
-.password-requirements {
+.password-requirements,
+.classification-requirements {
   margin-top: 0;
   font-style: italic;
+}
+
+.inv-management {
+  padding: 0 1rem;
+}
+
+#inv_description {
+  width: 100%;
+  resize: vertical;
+  min-height: 6rem;
+  padding: 0.5rem;
+  font-family: inherit;
+  font-size: 1rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -394,5 +441,4 @@ nav ul li a:hover {
   .vehicle-info {
     flex: 1;
   }
-  
-}
+}  
