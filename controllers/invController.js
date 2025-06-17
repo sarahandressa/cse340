@@ -9,10 +9,12 @@ const invCont = {}
 invCont.buildManagementView = async function (req, res, next) {
   try {
   let nav = await utilities.getNav()
+  let messages = req.flash("notice")
   res.render("./inventory/management", {
     title: "Vehicle Management",
     nav,
     errors: null,
+    messages,
 })  
   } catch (error) {
     console.error("Error in buildManagementView:", error)
