@@ -68,7 +68,7 @@ async function addClassification(classification_name) {
     }
 }
 
-/* ***************************Add commentMore actions
+/* ***************************
  *  Add new inventory
  * ************************** */
 async function addInventoryItem(

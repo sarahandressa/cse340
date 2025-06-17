@@ -4,7 +4,13 @@
 <% } %>
 
 <!-- Message display -->
-<%- message() %>
+<% if (messages && messages.length > 0) { %>
+  <div class="notice">
+    <% messages.forEach(msg => { %>
+      <p><%= msg %></p>
+    <% }) %>
+  </div>
+<% } %>
 
 <!-- Error display -->
 <% if (errors) { %>

@@ -8,14 +8,17 @@ const invCont = {}
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
   try {
-  let nav = await utilities.getNav()
-  let messages = req.flash("notice")
-  res.render("./inventory/management", {
-    title: "Vehicle Management",
-    nav,
-    errors: null,
-    messages,
-})  
+    let nav = await utilities.getNav()
+    let messages = req.flash("notice")
+    if (!Array.isArray(messages)) {
+      messages = messages ? [messages] : []
+    }
+    res.render("./inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      errors: null,
+      messages,
+    })
   } catch (error) {
     console.error("Error in buildManagementView:", error)
     next(error)
@@ -89,10 +92,15 @@ invCont.buildByVehicleId = async function (req, res, next) {
 invCont.buildAddClassification = async function (req, res, next) {
   try {
     let nav = await utilities.getNav()
+    let messages = req.flash("notice")
+    if (!Array.isArray(messages)) messages = messages ? [messages] : []
+
     res.render("./inventory/add-classification", {
       title: "Add New Classification",
       nav,
       errors: null,
+      messages,
+      classification_name: "",  
     })
   } catch (error) {
     console.error("Error in buildAddClassification:", error)
@@ -107,12 +115,17 @@ invCont.buildAddInventory = async function (req, res, next) {
   try {
     let nav = await utilities.getNav()
     let classificationList = await utilities.buildClassificationList()
+    let messages = req.flash("notice")
+    if (!Array.isArray(messages)) messages = messages ? [messages] : []
+
     res.render("./inventory/add-inventory", {
-    title: "Add New Vehicle",
-    nav,
-    classificationList,
-    errors: null,
-  })
+      title: "Add New Vehicle",
+      nav,
+      classificationList,
+      errors: null,
+      messages,
+      classification_name: " ",
+    })
   } catch (error) {
     console.error("Error in buildAddInventory:", error)
     next(error)
@@ -160,6 +173,7 @@ invCont.addInventoryItem = async function (req, res, next) {
         title: "Vehicle Management",
         nav,
         errors: null,
+        messages: req.flash("notice")
       })
     } else {
         req.flash("notice", "Sorry, the addition failed.")
@@ -169,6 +183,7 @@ invCont.addInventoryItem = async function (req, res, next) {
           nav,
           classificationList,
           errors: null,
+          messages: req.flash("notice"),
           inv_make,
           inv_model,
           inv_description,
@@ -199,12 +214,7 @@ invCont.addClassification = async function (req, res, next) {
         "notice", 
         `The ${classification_name} classification was successfully added.`
       )
-      let nav = await utilities.getNav()
-      res.status(201).render("./inventory/management", {
-        title: "Vehicle Management",
-        nav,
-        errors: null,
-      })
+      return res.redirect("/inv")  // 
     } else {
       req.flash("notice", "Sorry, the addition failed.")
       let nav = await utilities.getNav()
@@ -212,12 +222,18 @@ invCont.addClassification = async function (req, res, next) {
         title: "Add New Classification",
         nav,
         errors: null,
-    })
+        messages: [], // opcional
+        classification_name
+      })
+    }
+  } catch (error) {
+    console.error("Error in addClassification:", error)
+    next(error)
   }
-} catch (error) {
-  console.error("Error in addClassification:", error)
-  next(error)
 }
-}
+
+invCont.triggerError = (req, res, next) => {
+  throw new Error("This is a triggered error for testing.");
+};
 
 module.exports = invCont
