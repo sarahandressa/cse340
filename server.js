@@ -35,13 +35,20 @@ const app = express()
  // Parse cookies first (important!)
 app.use(cookieParser());
 
- app.use(session({
-   secret: process.env.SESSION_SECRET,
-   resave: true,
-   saveUninitialized: true,
-   name: "sessionId",
-  }));
 
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
 
 // Express Messages Middleware
 app.use(flash())
