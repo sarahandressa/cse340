@@ -9,7 +9,8 @@ const invCont = {}
 invCont.buildManagementView = async function (req, res, next) {
   try {
     let nav = await utilities.getNav()
-    const classificationSelect = await utilities.buildClassificationList()
+    const classifications = await invModel.getClassifications()
+    const classificationSelect = await utilities.buildClassificationList(classifications)
     let messages = req.flash("notice")
     if (!Array.isArray(messages)) {
       messages = messages ? [messages] : []
@@ -116,7 +117,8 @@ invCont.buildAddClassification = async function (req, res, next) {
 invCont.buildAddInventory = async function (req, res, next) {
   try {
     let nav = await utilities.getNav()
-    let classificationList = await utilities.buildClassificationList()
+    let classifications = await invModel.getClassifications()
+    let classificationList = await utilities.buildClassificationList(classifications)
     let messages = req.flash("notice")
     if (!Array.isArray(messages)) messages = messages ? [messages] : []
 
