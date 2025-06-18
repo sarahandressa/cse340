@@ -4,7 +4,7 @@
  *******************************************/
 /* ***********************
  * Require Statements
- *************************/
+ *************************/   
 require('dotenv').config();
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
@@ -32,16 +32,15 @@ const utilities = require("./utilities")
 *********************************** */
 const app = express()
 
-/* ***********************
- * Middleware
- * ************************/
- console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
+ // Parse cookies first (important!)
+app.use(cookieParser());
+
  app.use(session({
    secret: process.env.SESSION_SECRET,
    resave: true,
    saveUninitialized: true,
    name: "sessionId",
-  }))
+  }));
 
 
 // Express Messages Middleware
@@ -54,8 +53,7 @@ app.use(function(req, res, next){
 // Parse URL-encoded bodies
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-// Parse cookies
-app.use(cookieParser())
+
 
 // Middleware JWT Global
 app.use((req, res, next) => {
@@ -80,7 +78,7 @@ app.use((req, res, next) => {
 
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Routes
@@ -134,6 +132,7 @@ const host = process.env.HOST
 /* ***********************
  * Log statement to confirm server operation
  *************************/
-app.listen(port, () => {
+app.listen(port,() => {
   console.log(`app listening on ${host}:${port}`)
 })
+
