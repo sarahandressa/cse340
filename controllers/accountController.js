@@ -10,10 +10,12 @@ const utilities = require("../utilities/")
 * *************************************** */
 async function buildAccount(req, res, next) {
   let nav = await utilities.getNav()
+  let account_firstname = res.locals.accountData.account_firstname
   res.render("account/account-management", {
       title: "Account Management",
       nav,
       errors: null,
+      account_firstname
   })
 }
 
@@ -39,6 +41,7 @@ async function buildRegister(req, res, next) {
         title: "Register",
         nav,
         errors: null,
+        account_email: ""
     })
 }
 
@@ -78,6 +81,7 @@ async function registerAccount(req, res) {
             title: "Login",
             nav,
             errors: null,
+            account_email: "",
         })
     } else {
         req.flash("notice", "Sorry, the registration failed.")
@@ -85,6 +89,7 @@ async function registerAccount(req, res) {
             title: "Registration",
             nav,
             errors: null,
+            account_email: ""
         })
     }
 }

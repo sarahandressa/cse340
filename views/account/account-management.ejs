@@ -3,8 +3,8 @@
 <h1><%= title %></h1>
 <% } %>
 
-<!-- Message display -->
-<%- messages() %>
+<!-- Welcome message -->
+<h2>Welcome <%= account_firstname %></h2>
 
 <% if (errors) { %>
     <ul class="notice">
@@ -14,4 +14,4 @@
     </ul>
 <% } %>
 
-<p>You're logged in</p>
+<p>You're logged in!</p>

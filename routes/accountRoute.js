@@ -6,9 +6,12 @@ const accountController = require("../controllers/accountController")
 const utilities = require("../utilities")
 
 // Route to build account management view
-router.get("/", utilities.handleErrors(accountController.buildAccount));
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccount));
+
+// Route to build registration view
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
+
 
 // Route to register a new user
 router.post(
