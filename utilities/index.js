@@ -165,7 +165,7 @@ Util.checkJWTToken = (req, res, next) => {
 Util.handleErrors = fn => (req, res, next) => 
     Promise.resolve(fn(req, res, next)).catch(next)
 
-/* **************************************Add commentMore actions
+/* **************************************
 * Check Login
 * ************************************ */
 Util.checkLogin = (req, res, next) => {
@@ -176,5 +176,24 @@ Util.checkLogin = (req, res, next) => {
         return res.redirect("/account/login")
     }
 }
+
+/* **************************************
+* Middleware to check account type
+* ************************************ */
+Util.checkAdminEmployee = (req, res, next) => {
+    if (res.locals.loggedin) {
+        const account_type = res.locals.accountData.account_type
+        if (account_type === "Employee" || account_type === "Admin") {
+            next()
+        } else {
+            req.flash("notice", "Please log in with appropriate account privileges.")
+            return res.redirect("/account/login")
+        }
+    } else {
+        req.flash("notice", "Please log in.")
+        return res.redirect("/account/login")
+    }
+}
+
 
 module.exports = Util;

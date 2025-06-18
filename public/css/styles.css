@@ -237,6 +237,7 @@ nav ul li a:hover {
 /*Account Management & Inventory Management styles */
 
 .login, .register,
+.update,
 .classification,
 .inventory {
   padding: 2rem;
@@ -247,6 +248,7 @@ nav ul li a:hover {
 }
 
 .login form, .register form,
+.update form,
 .classification form,
 .inventory form {
   display: flex;
@@ -257,6 +259,7 @@ nav ul li a:hover {
 
 .login label, 
 .register label,
+.update label,
 .classification label, 
 .inventory label{
   display: block;
@@ -266,6 +269,7 @@ nav ul li a:hover {
 
 .login input, 
 .register input,
+.update input,
 .classification input, 
 .inventory input,
 #classificationList {
@@ -282,6 +286,7 @@ nav ul li a:hover {
 
 .login input:valid, 
 .register input:valid, 
+.update input:valid,
 .classification input:valid, 
 .inventory input:valid,
 .inventory textarea:valid{
@@ -291,7 +296,8 @@ nav ul li a:hover {
 
 .login input:invalid, 
 .register input:invalid, 
-.classification input:invalid,
+.register input:valid, 
+.update input:invalid,
 .inventory input:invalid,
 .inventory textarea:invalid {
   border-left: 5px solid red;
@@ -299,7 +305,8 @@ nav ul li a:hover {
 }
 
 .login button,
-.register button {
+.register button,
+#updateForm button {
   height: 40px;
   width: 150px;
   background-color: var(--background-color);
@@ -313,7 +320,8 @@ nav ul li a:hover {
 }
 
 .classification button,
-.inventory button {
+.inventory button, 
+#passwordForm button {
   height: 50px;
   width: 180px;
   background-color: var(--background-color);
@@ -328,6 +336,8 @@ nav ul li a:hover {
   
 .login button:hover,
 .register button:hover,
+#updateForm button:hover,
+#passwordForm button:hover,
 .classification button:hover, 
 .inventory button:hover {
   background-color: var(--font-color);
