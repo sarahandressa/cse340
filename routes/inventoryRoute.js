@@ -19,6 +19,9 @@ router.post("/add-classification",
     utilities.handleErrors(invController.addClassification)
 )
 
+// Route to build add inventory view
+router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+
 // Route to add inventory
 router.post("/add-inventory",
     invValidate.inventoryRules(),
@@ -26,8 +29,15 @@ router.post("/add-inventory",
     utilities.handleErrors(invController.addInventoryItem)
 )
 
-// Route to build add inventory view
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+// Route to edit inventory view
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView))
+
+
+// Route to update inventory
+router.post("/update/",
+    invValidate.inventoryRules(),
+    invValidate.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory))
 
 // Route to build inventory by classification view
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));

@@ -437,6 +437,11 @@ nav ul li a:hover {
   color: var(--background-color);
 }
 
+#updateForm button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 @media screen and (min-width: 768px) {
   body {
     background-image: url("/images/site/small_check.jpg");
