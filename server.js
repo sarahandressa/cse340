@@ -41,7 +41,7 @@ const app = express()
    resave: true,
    saveUninitialized: true,
    name: "sessionId",
-  })),
+  }))
 
 
 // Express Messages Middleware
