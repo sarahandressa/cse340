@@ -9,6 +9,7 @@ const invCont = {}
 invCont.buildManagementView = async function (req, res, next) {
   try {
     let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList()
     let messages = req.flash("notice")
     if (!Array.isArray(messages)) {
       messages = messages ? [messages] : []
@@ -18,6 +19,7 @@ invCont.buildManagementView = async function (req, res, next) {
       nav,
       errors: null,
       messages,
+      classificationSelect,
     })
   } catch (error) {
     console.error("Error in buildManagementView:", error)
@@ -229,6 +231,19 @@ invCont.addClassification = async function (req, res, next) {
   } catch (error) {
     console.error("Error in addClassification:", error)
     next(error)
+  }
+}
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id)
+  const invData = await invModel.getInventoryByClassificationId(classification_id)
+  if (invData[0].inv_id) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
   }
 }
 

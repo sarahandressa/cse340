@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+require('dotenv').config();
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const bodyParser = require("body-parser")
@@ -13,7 +14,6 @@ const session = require("express-session")
 const flash = require("connect-flash")
 const { cookie } = require("express-validator")
 const jwt = require("jsonwebtoken")
-const env = require("dotenv").config()
 const pool = require('./database/')
 
 
@@ -35,16 +35,14 @@ const app = express()
 /* ***********************
  * Middleware
  * ************************/
+ console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
  app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
-}))
+   secret: process.env.SESSION_SECRET,
+   resave: true,
+   saveUninitialized: true,
+   name: "sessionId",
+  })),
+
 
 // Express Messages Middleware
 app.use(flash())

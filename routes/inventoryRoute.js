@@ -7,6 +7,7 @@ const utilities = require("../utilities")
 
 // Route to build inventory management view
 router.get("/", utilities.handleErrors(invController.buildManagementView))
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 // Route to build add classification view
 router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
