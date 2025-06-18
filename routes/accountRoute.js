@@ -6,6 +6,7 @@ const accountController = require("../controllers/accountController")
 const utilities = require("../utilities")
 
 // Route to build account management view
+router.get("/", utilities.handleErrors(accountController.buildAccount));
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/register", utilities.handleErrors(accountController.buildRegister));
 
@@ -21,7 +22,7 @@ router.post(
     "/login",
     regValidate.loginRules(),
     regValidate.checkLoginData,
-    utilities.handleErrors(accountController.processLogin)
+    utilities.handleErrors(accountController.accountLogin)
 )
 
 module.exports = router;

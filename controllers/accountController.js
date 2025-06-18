@@ -1,18 +1,33 @@
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 const bcrypt = require("bcryptjs")
 const accountModel = require("../models/account-model")
 const utilities = require("../utilities/")
 
 
 /* ****************************************
+*  Deliver account management view
+* *************************************** */
+async function buildAccount(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/account-management", {
+      title: "Account Management",
+      nav,
+      errors: null,
+  })
+}
+
+/* ****************************************
 *  Deliver login view
 * *************************************** */
 async function buildLogin(req, res, next) {
-  let nav = await utilities.getNav()
-  res.render("account/login", {
-    title: "Login",
-    nav,
-    errors: null,
-  })
+    let nav = await utilities.getNav()
+    res.render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email: "",
+    })
 }
 
 /* ****************************************
@@ -26,22 +41,6 @@ async function buildRegister(req, res, next) {
         errors: null,
     })
 }
-
-/* ****************************************
-*  Process Login
-* *************************************** */
-async function processLogin(req, res) {
-    let nav = await utilities.getNav()
-    const { account_email } = req.body
-
-    req.flash("notice", "You have logged in.")
-    res.status(200).render("account/login", {
-        title: "Login",
-        nav,
-        errors: null,
-    })
-}
-
 
 /* ****************************************
 *  Process Registration
@@ -61,6 +60,7 @@ async function registerAccount(req, res) {
             title: "Registration",
             nav,
             errors: null,
+            account_email: ""
         })
         return;
     }
@@ -89,4 +89,50 @@ async function registerAccount(req, res) {
     }
 }
 
-module.exports = { buildLogin, buildRegister, processLogin, registerAccount }
+/* ****************************************
+*  Process Login
+* *************************************** */
+async function accountLogin(req, res) {
+    let nav = await utilities.getNav()
+    const { account_email, account_password } = req.body
+    const accountData = await accountModel.getAccountByEmail(account_email)
+    if (!accountData) {
+        req.flash("notice", "Please check your credentials and try again.")
+        res.status(400).render("account/login", {
+            title: "Login",
+            nav,
+            errors: null,
+            account_email,
+        })
+        return
+    }
+    try {
+        if (await bcrypt.compare(account_password, accountData.account_password)) {
+            delete accountData.account_password
+            const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+            if (process.env.NODE_ENV === 'development') {
+                res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+            }
+            return res.redirect("/account/")
+        } else {
+            req.flash("notice", "Please check your credentials and try again.")
+            res.status(400).render("account/login", {
+                title: "Login",
+                nav,
+                errors: null,
+                account_email,
+            })
+        }
+    } catch (error) {
+  console.error("Login Error:", error)
+  req.flash("notice", "Something went wrong. Please try again.")
+  res.status(500).render("account/login", {
+    title: "Login",
+    nav,
+    errors: null,
+    account_email,
+  })
+}
+}
+
+module.exports = { buildAccount, buildLogin, buildRegister, accountLogin, registerAccount }

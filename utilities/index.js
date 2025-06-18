@@ -1,11 +1,13 @@
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 const invModel = require("../models/inventory-model")
-const Util = {}
 
+const Util = {}
 
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
+Util.getNav = async function () {
   let data = await invModel.getClassifications()
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
@@ -29,26 +31,46 @@ Util.getNav = async function (req, res, next) {
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
-Util.buildClassificationGrid = async function(data){
-  let grid
+Util.buildClassificationGrid = async function (data) {
+  let grid = ""
   if(data.length > 0){
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => { 
       grid += '<li>'
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
-      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      grid +=  
+        '<a href="../../inv/detail/'+ 
+        vehicle.inv_id + 
+        '" title="View ' + 
+        vehicle.inv_make + 
+        " " + 
+        vehicle.inv_model + 
+        'details"><img src="' + 
+        vehicle.inv_thumbnail +
+        '" alt="Image of '+ 
+        vehicle.inv_make + 
+        " " + 
+        vehicle.inv_model + 
+      ' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
       grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
+      grid += 
+      '<a href="../../inv/detail/' + 
+      vehicle.inv_id +
+      '" title="View ' + 
+      vehicle.inv_make + 
+      " " + 
+      vehicle.inv_model + 
+      ' details">' + 
+      vehicle.inv_make + 
+      " " + 
+      vehicle.inv_model + 
+      '</a>'
       grid += '</h2>'
-      grid += '<span>$' 
-      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      grid += 
+      '<span>$' + 
+    new Intl.NumberFormat('en-US').format(vehicle.inv_price) + 
+    '</span>'
       grid += '</div>'
       grid += '</li>'
     })
@@ -63,7 +85,7 @@ Util.buildClassificationGrid = async function(data){
 * Build the vehicle detail view HTML
 * ************************************ */
 Util.buildVehicleDetailView = async function(data) {
-    let detail
+    let detail = ""
     if(data) {
         detail = '<div class="vehicle-detail">'
         detail += '<img src="' + data.inv_image + '" alt="' + data.inv_make + ' ' + data.inv_model + ' car">'
@@ -79,26 +101,6 @@ Util.buildVehicleDetailView = async function(data) {
     detail = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
     }
     return detail
-}
-
-/* **************************************
-* Password Toggle Function
-* ************************************ */
-Util.togglePassword = function() {
-    const password = document.getElementById("account_password");
-    const showPasswordButton = document.getElementById("showPassword");
-
-    if (showPasswordButton) {
-        showPasswordButton.addEventListener("click", function() {
-            if (password.type === "password") {
-                password.type = "text";
-                showPasswordButton.textContent = "Hide";
-            } else {
-                password.type = "password";
-                showPasswordButton.textContent = "Show";
-            }
-        });
-    }
 }
 
 /* **************************************
@@ -123,11 +125,44 @@ Util.buildClassificationList = async function (classification_id = null) {
     return classificationList
 }
 
+/* **************************************
+* Middleware to check token validity
+* ************************************ */
+Util.checkJWTToken = (req, res, next) => {
+    if (req.cookies.jwt) {
+        jwt.verify(
+            req.cookies.jwt,
+            process.env.ACCESS_TOKEN_SECRET,
+            function (err, accountData) {
+                if (err) {
+                  res.clearCookie("jwt") 
+
+                  const publicRoutes = ["/account/login", "account/register"]
+                  if (!publicRoutes.includes(req.orginalUrl)) {
+                    req.flash("Please log in")
+                    return res.redirect("/account/login")
+                  }
+
+                  return next()
+
+                }
+
+                res.locals.accountData = accountData
+                res.locals.loggedin = 1
+                next()
+            }
+        )
+    } else {
+      next()
+    }
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+Util.handleErrors = fn => (req, res, next) => 
+    Promise.resolve(fn(req, res, next)).catch(next)
 
 module.exports = Util;
