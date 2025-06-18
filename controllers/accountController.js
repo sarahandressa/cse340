@@ -10,7 +10,18 @@ const utilities = require("../utilities/")
 * *************************************** */
 async function buildAccount(req, res, next) {
   let nav = await utilities.getNav()
-  let account_firstname = res.locals.accountData.account_firstname
+  let account_firstname = "User"
+
+  try{
+    const token = req.cookies.jwt
+    if (token) {
+        const decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
+        account_firstname = jwt.decoded.account_firstname
+    }
+  } catch (err) {
+    console.error("JWT decode error:", err)
+  }
+  
   res.render("account/account-management", {
       title: "Account Management",
       nav,

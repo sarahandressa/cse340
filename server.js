@@ -12,8 +12,10 @@ const cookieParser = require("cookie-parser")
 const session = require("express-session")
 const flash = require("connect-flash")
 const { cookie } = require("express-validator")
+const jwt = require("jsonwebtoken")
 const env = require("dotenv").config()
 const pool = require('./database/')
+
 
 // Routes & Controllers
 const static = require("./routes/static")
@@ -56,6 +58,23 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 // Parse cookies
 app.use(cookieParser())
+
+// Middleware JWT Global
+app.use((req, res, next) => {
+  const token = req.cookies.jwt
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+      res.locals.accountData = decoded
+    } catch (err) {
+      console.log("JWT error:", err)
+      res.locals.accountData = null
+    }
+  } else {
+    res.locals.accountData = null
+  }
+  next ()
+})
 
 /* ***********************
  * View Engine and Templates
