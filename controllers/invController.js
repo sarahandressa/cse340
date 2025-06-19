@@ -175,11 +175,17 @@ invCont.addInventoryItem = async function (req, res, next) {
         "notice",
         `The vehicle ${inv_make} ${inv_model} was successfully added.`
       )
+
+      const classifications = await invModel.getClassifications()
+      const classificationSelect = await utilities.buildClassificationList(classifications.rows)
+
       res.status(201).render("inventory/management", {
         title: "Vehicle Management",
         nav,
         errors: null,
-        messages: req.flash("notice")
+        messages: req.flash("notice"),
+        classifications: classifications.rows,
+        classificationSelect
       })
     } else {
         req.flash("notice", "Sorry, the addition failed.")

@@ -296,7 +296,7 @@ nav ul li a:hover {
 
 .login input:invalid, 
 .register input:invalid, 
-.register input:valid, 
+.register input:invalid, 
 .update input:invalid,
 .inventory input:invalid,
 .inventory textarea:invalid {
