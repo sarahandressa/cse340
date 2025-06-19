@@ -1,4 +1,5 @@
 const invModel = require("../models/inventory-model")
+const reviewModel = require("../models/review-model")
 const utilities = require("../utilities/")
 
 const invCont = {}
@@ -78,16 +79,35 @@ invCont.buildByVehicleId = async function (req, res, next) {
       })
     }
     const grid = await utilities.buildVehicleDetailView(data[0])
+    const reviews = await reviewModel.getReviewsByVehiclesId(vehicle_id)
+    const account_id = res.locals.accountData?.account_id
     let nav = await utilities.getNav()
     res.render("./inventory/detail", {
       title: data[0].inv_year + " " + data[0].inv_make + " " + data[0].inv_model,
       nav,
       grid,
+      reviews,
+      account_id,
+      inv_id: data[0].inv_id,
       errors: null,
     })
   } catch (error) {
     console.error("Error in buildByVehicleId:", error)
     next(error)
+  }
+}
+
+/* *************************************
+* Submit Review
+* *********************************** */
+invCont.submitReview = async function (req, res, next) {
+  try {
+    const { inv_id, account_id, review_text } = req.body
+    await reviewModel.addReview(inv_id, account_id, review_text)
+    res.redirect(`/inv/detail/${inv_id}`)
+  } catch (error) {
+    console.error("Error in submitReview", error)
+      next(error)
   }
 }
    

@@ -452,6 +452,82 @@ nav ul li a:hover {
   opacity: 0.5;
 }
 
+/* Review Section */
+
+.review-section {
+  margin-top: 2em;
+  padding: 1em;
+  background-color: var(--background-color);
+  border-radius: 8px;
+}
+
+.review-section h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.review-list {
+  list-style: none;
+  padding: 0;
+}
+
+.review-item {
+  border-bottom: 1px solid #ddd;
+  padding: 0.5rem 0;
+}
+
+.review-item p {
+  margin: 0.5rem 0;
+}
+
+.review-item small {
+  color: #777;
+  font-size: 0.85rem;
+}
+
+.no-review {
+  color: #666;
+  font-style: italic;
+}
+
+/* Review form styling */
+.review-form-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #eef6f9;
+  border-radius: 8px;
+}
+
+.review-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.review-form textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.review-form button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #2e8b57;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.review-form button:hover {
+  background-color: #246b45;
+}
+
 @media screen and (min-width: 768px) {
   body {
     background-image: url("/images/site/small_check.jpg");

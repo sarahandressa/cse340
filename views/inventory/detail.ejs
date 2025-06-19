@@ -11,3 +11,47 @@
 
 <!-- Vehicle detail content -->
 <%- grid %>
+
+<!-- Errors messages -->
+<% if (errors && errors.length > 0) { %>
+  <div class="errors">
+    <% errors.forEach(error => { %>
+      <p><%= error %></p>
+    <% }) %>
+  </div>
+<% } %>
+
+<!-- Reviews Sections -->
+ <section class="review-section">
+    <h2>Customer Reviews</h2>
+  <% if (reviews && reviews.length > 0) { %>
+    <ul class="review-list">
+    <% reviews.forEach(review => { %>
+        <li class="review-item">
+        <strong><%= review.account_firstname %>:</strong>
+        <p><%= review.review_text %></p>
+        <small><%= new Date(review.review_date).toLocaleDateString() %></small>
+        </li>
+    <% }) %>
+    </ul>
+
+    <% } else { %>
+      <p class="no-review">No reviews yet. Be the first to write one!</p>
+    <% } %>      
+ </section> 
+
+<!-- Submit a review (if logged in)-->
+<% if (account_id) { %> 
+  <section class="review-form-section">
+    <h2>Write a Review</h2>
+    <form class="review-form" action="/review/add" method="post">
+      <label for="review_text">Your Review:</label>
+      <textarea name="review_text" id="review_text" rows="4" cols="50" required placeholder="Write your opinion here..."></textarea><br>
+      <input type="hidden" name="inv_id" value="<%= inv_id %>">
+      <input type="hidden" name="account_id" value="<%= account_id %>">
+      <button type="submit">Send Comment</button>
+    </form>
+  </section>
+<% } else { %>
+  <p><a href="/account/login">Log in</a> to make a comment at this vehicle.</p>
+<% } %>

@@ -14,6 +14,9 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 // Route to build vehicle detail view
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByVehicleId));
 
+// New route to handle review submission
+router.post("/review", utilities.checkLogin, invController.submitReview)
+
 /* **************************************
 * Protected Routes
 * ************************************ */
