@@ -21,6 +21,7 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
+const reviewRoute = require("./routes/reviewRoute")
 const errorRoute = require("./routes/errorRoute")
 
 // Utilities
@@ -92,6 +93,7 @@ app.use(utilities.checkJWTToken)
  *************************/
 app.use("/account", accountRoute)
 app.use("/inv", inventoryRoute)
+app.use("/review", reviewRoute)
 
 /* ***********************
  * Error routes
@@ -102,7 +104,7 @@ app.use("/error", errorRoute)
  * File Not Found Route - must be last route in list
  *************************/
 app.use(async (req, res, next) => {
-  next({ status: '404', message: '😱 Sorry, we appear to have lost that page.' })
+  next({ status: 404, message: '😱 Sorry, we appear to have lost that page.' })
 })
 
 /* ***********************
